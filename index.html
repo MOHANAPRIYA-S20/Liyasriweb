@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIYASRI Digital Photo Album</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen">
+        <div class="loader-content">
+            <h2 class="studio-name">KALAI Photography</h2>
+            <p>Loading Album...</p>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen hidden">
+        <div class="bg-blur"></div>
+        <div class="welcome-content">
+            <h1 class="title">Happy Birthday<br><span class="highlight">LIYASRI</span></h1>
+            <p class="subtitle">KALAI Photography Digital Album</p>
+            <button id="open-album-btn" class="glow-btn">📖 Open Album</button>
+        </div>
+    </div>
+
+    <!-- Album Viewer -->
+    <div id="album-viewer" class="screen hidden">
+        <div class="album-container" id="album-container">
+            <div id="book">
+                <!-- Pages will be dynamically generated here by JS -->
+            </div>
+        </div>
+        
+        <div class="page-counter">
+            <span id="current-page-num">1</span> of <span id="total-pages-num">24</span>
+        </div>
+
+        <nav class="glass-nav">
+            <button id="prev-btn" class="nav-btn">◀ Previous</button>
+            <button id="music-btn" class="nav-btn">🎵 Play Music</button>
+            <button id="fullscreen-btn" class="nav-btn">⛶ Fullscreen</button>
+            <button id="next-btn" class="nav-btn">▶ Next</button>
+        </nav>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" src="kannamma-song.mp3" loop></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

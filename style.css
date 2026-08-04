@@ -1,0 +1,279 @@
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden; /* No scrolling */
+    user-select: none;
+}
+
+/* Screens */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s;
+    z-index: 10;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Loading Screen */
+#loading-screen {
+    background-color: #000;
+    z-index: 30;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.studio-name {
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    color: #FFD700;
+}
+
+.progress-bar-container {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 20px auto;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #FFD700;
+    transition: width 0.3s ease;
+}
+
+/* Welcome Screen */
+#welcome-screen {
+    background: #000;
+    z-index: 20;
+}
+
+.bg-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/cover.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(20px) brightness(0.3);
+    z-index: -1;
+}
+
+.welcome-content {
+    text-align: center;
+    z-index: 2;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.highlight {
+    color: #FFD700;
+    font-size: 4rem;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    color: #ccc;
+}
+
+.glow-btn {
+    background: linear-gradient(135deg, #FFD700, #B8860B);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.glow-btn:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+    animation: none;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
+
+/* Album Viewer */
+#album-viewer {
+    background: #000;
+}
+
+.album-container {
+    position: relative;
+    width: 95vw;
+    height: 85vh;
+    max-width: 1600px;
+    max-height: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 15px rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #111;
+    perspective: 3000px;
+}
+#book {
+    width: 100%;
+    height: 100%;
+}
+
+.book {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+/* StPageFlip Styling */
+.page {
+    background-color: #050505; /* dark back for empty space */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.page-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Base img fit */
+.spread-img {
+    position: absolute;
+    top: 0;
+    width: 200%;
+    height: 100%;
+    object-fit: contain;
+}
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Spread positioning trick */
+.left-side .spread-img {
+    left: 0;
+}
+.right-side .spread-img {
+    right: 0;
+}
+
+/* Page Counter */
+.page-counter {
+    position: absolute;
+    top: 20px;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+
+/* Glass Navigation */
+.glass-nav {
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .glass-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 15px;
+        bottom: 15px;
+        width: 90%;
+    }
+    .nav-btn {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+    .title {
+        font-size: 2.5rem;
+    }
+    .highlight {
+        font-size: 3rem;
+    }
+    .album-container {
+        width: 95vw;
+        height: 70vh;
+    }
+}
