@@ -47,6 +47,7 @@ const fullscreenBtn = document.getElementById('fullscreen-btn');
 // Initialize
 function init() {
     totalPagesSpan.innerText = pages.length;
+    bgMusic.load(); // Preload music to prevent playback issues
     preloadImages();
 }
 
@@ -110,37 +111,25 @@ function generatePages() {
     const bookContainer = document.getElementById('book');
     bookContainer.innerHTML = '';
 
-    pages.forEach((src, index) => {
-        if (index === 0 || index === pages.length - 1) {
-            // Cover and Back Cover
-            const pageDiv = document.createElement('div');
-            pageDiv.className = 'page';
-            pageDiv.innerHTML = `
-                <div class="page-content">
-                    <img src="${src}" class="cover-img">
-                </div>
-            `;
-            bookContainer.appendChild(pageDiv);
-        } else {
-            // Spreads
-            const leftPage = document.createElement('div');
-            leftPage.className = 'page';
-            leftPage.innerHTML = `
-                <div class="page-content left-side">
-                    <img src="${src}" class="spread-img">
-                </div>
-            `;
-            bookContainer.appendChild(leftPage);
-            
-            const rightPage = document.createElement('div');
-            rightPage.className = 'page';
-            rightPage.innerHTML = `
-                <div class="page-content right-side">
-                    <img src="${src}" class="spread-img">
-                </div>
-            `;
-            bookContainer.appendChild(rightPage);
-        }
+    pages.forEach((src) => {
+        // Treat every image as a full spread so it is perfectly centered
+        const leftPage = document.createElement('div');
+        leftPage.className = 'page';
+        leftPage.innerHTML = `
+            <div class="page-content left-side">
+                <img src="${src}" class="spread-img">
+            </div>
+        `;
+        bookContainer.appendChild(leftPage);
+        
+        const rightPage = document.createElement('div');
+        rightPage.className = 'page';
+        rightPage.innerHTML = `
+            <div class="page-content right-side">
+                <img src="${src}" class="spread-img">
+            </div>
+        `;
+        bookContainer.appendChild(rightPage);
     });
 }
 
@@ -148,30 +137,25 @@ function initPageFlip() {
     const bookElement = document.getElementById('book');
     
     pageFlip = new St.PageFlip(bookElement, {
-        width: 800,
+        width: 800, // Will be overridden by stretch
         height: 900,
         size: "stretch",
-        minWidth: 315,
-        maxWidth: 1000,
-        minHeight: 420,
-        maxHeight: 1350,
+        minWidth: 100,
+        maxWidth: 5000,
+        minHeight: 100,
+        maxHeight: 5000,
         maxShadowOpacity: 0.5,
-        showCover: true,
+        showCover: false, // Set to false so the book starts open and the cover is centered
         usePortrait: true,
-        mobileScrollSupport: true
+        mobileScrollSupport: true,
+        autoSize: true, // Automatically adjust to parent container
+        drawShadow: true // Ensure shadows are drawn on pages
     });
 
     pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
     pageFlip.on('flip', (e) => {
-        let imgIndex = 0;
-        if (e.data === 0) {
-            imgIndex = 0;
-        } else if (e.data === document.querySelectorAll('.page').length - 1) {
-            imgIndex = pages.length - 1;
-        } else {
-            imgIndex = Math.ceil(e.data / 2);
-        }
+        const imgIndex = Math.floor(e.data / 2);
         pageNumSpan.innerText = imgIndex + 1;
     });
 }
@@ -187,9 +171,20 @@ function previousPage() {
 // Music
 function toggleMusic(forcePlay = false) {
     if (forcePlay || bgMusic.paused) {
-        bgMusic.play().catch(e => console.log('Audio play prevented by browser', e));
-        musicBtn.innerText = '🎵 Pause Music';
-        isMusicPlaying = true;
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                musicBtn.innerText = '🎵 Pause Music';
+                isMusicPlaying = true;
+            }).catch(e => {
+                console.log('Audio play prevented', e);
+                musicBtn.innerText = '🎵 Play Music';
+                isMusicPlaying = false;
+            });
+        } else {
+            musicBtn.innerText = '🎵 Pause Music';
+            isMusicPlaying = true;
+        }
     } else {
         bgMusic.pause();
         musicBtn.innerText = '🎵 Play Music';
